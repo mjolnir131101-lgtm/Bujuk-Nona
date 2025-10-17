@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Bujukan Spesial Nonaku 💞</title>
+<style>
+  body {
+    background: #ffd6e8;
+    text-align: center;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    overflow-x: hidden;
+  }
+  h1 { color: #ff4081; margin-top: 30px; }
+  #scene { position: relative; height: 220px; overflow: hidden; }
+  .ikan, .kodok { position: absolute; font-size: 48px; }
+  .ikan { left: 0; top: 60px; animation: swim 6s linear infinite; }
+  .kodok { right: 0; top: 150px; animation: jump 4s ease-in-out infinite; }
+
+  @keyframes swim {
+    0% { left: -80px; }
+    50% { left: 85%; }
+    100% { left: -80px; }
+  }
+  @keyframes jump {
+    0%,100% { top: 150px; }
+    50% { top: 120px; }
+  }
+
+  button {
+    background-color: #ff80ab;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:active { transform: scale(0.95); }
+  button:hover { background-color: #f06292; }
+
+  #message {
+    margin-top: 18px;
+    font-size: 17px;
+    color: #880e4f;
+    min-height: 60px;
+  }
+
+  #quiz {
+    display: none;
+    margin-top: 25px;
+  }
+  .question {
+    background-color: #ffe4f1;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: none;
+  }
+  .answers button {
+    display: block;
+    margin: 8px auto;
+    width: 80%;
+  }
+  #result { font-weight: bold; color: #ad1457; margin-top: 10px; }
+</style>
+</head>
+<body>
+  <h1>🐸💞 Bujukan + Quiz Cinta Untuk Nonaku 💞🐟</h1>
+  <div id="scene">
+    <div class="ikan">🐟</div>
+    <div class="kodok">🐸</div>
+  </div>
+
+  <div id="buttons">
+    <button id="btnMaafin" onclick="maafin()">Maafin 😇</button>
+    <button id="btnBelum" onclick="belum()">Belum 😅</button>
+  </div>
+
+  <div id="message"></div>
+
+  <!-- Quiz Section -->
+  <div id="quiz">
+    <div class="question" id="q1">
+      <p>1️⃣ Siapa yang paling nyebelin tapi tetep kamu sayang?</p>
+      <div class="answers">
+        <button onclick="jawab(1, true)">A) Aku 😝</button>
+        <button onclick="jawab(1, false)">B) Orang random di TikTok</button>
+      </div>
+    </div>
+    <div class="question" id="q2">
+      <p>2️⃣ Kalau aku minta pelukan, kamu bakal?</p>
+      <div class="answers">
+        <button onclick="jawab(2, true)">A) Kasih pelukan + bonus cium 😚</button>
+        <button onclick="jawab(2, false)">B) Kabur 🙈</button>
+      </div>
+    </div>
+    <div class="question" id="q3">
+      <p>3️⃣ Hewan mana yang paling menggambarkan kita?</p>
+      <div class="answers">
+        <button onclick="jawab(3, true)">A) Kodok 🐸 & Ikan 🐟 — beda dunia tapi cocok 😍</button>
+        <button onclick="jawab(3, false)">B) Singa & kambing (random banget?)</button>
+      </div>
+    </div>
+    <p id="result"></p>
+  </div>
+
+<script>
+  const msg = document.getElementById("message");
+  let klikBelum = 0; // counter buat munculin quiz
+
+  function belum() {
+    const responses = [
+      "🧚‍♀️: Nonaku, Cantikku, Cintakku, Duniakku, Sayangku paling tercinta, Yang Mulia, Ratu tercantik sejagad bekasi raya....",
+      "🐸: Plisss banget biww baby bahkan kodok aja rela berhenti ngurung diri cuma buat bantu aku minta maaf 🙏🙏🙏",
+      "🐟: Aku lagi belajar berenang dalam ke hati kamu, tapi gate nya masih ditutup kayaknya deh😭😭😭",
+      "Ke depannya dijamin bakal zero complaint dari kamu🥹🥹🥹...",
+      "💖💖💖 Bahkan pink nya layar aja kalah malu sama kamu..."
+    ];
+    klikBelum++;
+    msg.textContent = responses[Math.floor(Math.random() * responses.length)];
+
+    // Setelah 3x klik "Belum", munculkan quiz otomatis
+    if (klikBelum === 3) {
+      setTimeout(() => mulaiQuiz(), 1500);
+    }
+  }
+
+  function maafin() {
+    msg.innerHTML =
+      "Yaaay! 🥹💞🐸 + 🐟 = ❤️<br>Makasi udah maafin aku ya 😘 Sekarang boleh peluk gak? 🤗";
+    document.body.style.background = "#ffc1e3";
+  }
+
+  // ==== QUIZ ====
+  let currentQ = 0;
+  const totalQ = 3;
+
+  function mulaiQuiz() {
+    msg.textContent = "📋 Nonaku udah klik ‘Belum’ terus, sekarang waktunya quiz cinta 💌";
+    document.getElementById("quiz").style.display = "block";
+    currentQ = 1;
+    showQuestion(currentQ);
+    klikBelum = 0; // reset counter
+  }
+
+  function showQuestion(num) {
+    document.querySelectorAll(".question").forEach(q => q.style.display = "none");
+    const q = document.getElementById("q" + num);
+    if (q) q.style.display = "block";
+    document.getElementById("result").textContent = "";
+  }
+
+  function jawab(num, benar) {
+    const result = document.getElementById("result");
+    if (benar) {
+      result.textContent = "💖 Benar banget!";
+      if (num < totalQ) setTimeout(() => showQuestion(num + 1), 900);
+      else setTimeout(selesaiQuiz, 800);
+    } else {
+      result.textContent = "😜 Coba lagi yaa, masa jawabnya gitu...";
+    }
+  }
+
+  function selesaiQuiz() {
+    document.querySelectorAll(".question").forEach(q => q.style.display = "none");
+    document.getElementById("result").innerHTML =
+      "🎉 Yeay! Nona lulus Ujian Cinta!<br>Hadiah: satu maaf penuh + pelukan virtual dari aku 💞💐";
+  }
+</script>
+</body>
+</html>
